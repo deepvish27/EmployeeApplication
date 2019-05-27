@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EmployeeApplication.Database;
+using EmployeeApplication.Models;
+using EmployeeApplication.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +11,22 @@ namespace EmployeeApplication.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            List<EmployeeDetails> empList = new List<EmployeeDetails>();
+            List<EmployeeViewModel> empVMList = new List<EmployeeViewModel>();
+            EmployeeViewModel empViewModel = new EmployeeViewModel();
+            DBTasks db = new DBTasks();
+            empList = db.GetEmployeeDetails();
+            empVMList = empViewModel.GetEmpViewModel(empList);
+            return View(empVMList);
         }
-
-        public ActionResult About()
+        
+        [HttpGet]
+        public string Statistics()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return "Statistics will be displayed here!!";
         }
     }
 }
