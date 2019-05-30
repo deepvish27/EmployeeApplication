@@ -5,13 +5,36 @@
 @using EmployeeApplication.ViewModels
 @model List<EmployeeViewModel>
 
+<div class="container" style="position:center;">
+    <h3>Employee Details</h3>
+</div>
 <div class="container" style="position:center">
-    <table class="table">
+    <table class="table table-bordered table-sm">
+        <tr class="bg-primary">
+            <th>
+                Employee ID
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Marital Status
+            </th>
+        </tr>
         @foreach(EmployeeViewModel empVM in Model)
         {
             <tr>
-                <td>@empVM.EmpID</td>
-                <td>@empVM.EmpCompleteName</td>
+                <td>
+                    <a href="/HomeController/EditEmployeeInfo">@empVM.EmpID</a>
+                </td>
+                <td>
+                    <a href="/HomeController/EditEmployeeInfo">
+                        @empVM.EmpCompleteName
+                    </a>
+                </td>
                 <td>@empVM.Age</td>
                 <td>@empVM.MaritalStatus</td>
             </tr>

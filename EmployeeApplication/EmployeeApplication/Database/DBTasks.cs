@@ -13,7 +13,7 @@ namespace EmployeeApplication.Database
     public class DBTasks
     {
         private string connectionString;
-        
+
         public DBTasks()
         {
             connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString.ToString();
@@ -24,27 +24,29 @@ namespace EmployeeApplication.Database
             List<EmployeeDetails> empList = new List<EmployeeDetails>();
             EmployeeDetails emp;
             SqlConnection connection = new SqlConnection(connectionString);
+            SqlDataAdapter adapter;
+            DataSet data = new DataSet();
+
             string spName = "spGetEmployeeDetails";
             using (SqlCommand command = new SqlCommand(spName))
             {
-                command.Connection = connection;
                 connection.Open();
-                DbDataReader reader = command.ExecuteReader();
-                if (reader != null)
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
+                adapter = new SqlDataAdapter(command);
+                adapter.Fill(data);
+
+                if (data != null)
                 {
-                    while (reader.Read())
+                    foreach (DataRow row in data.Tables[0].Rows)
                     {
-                        foreach(DataRow row in reader)
-                        {
-                            emp = new EmployeeDetails();
-                            emp.EmpId = int.Parse(row["ID"].ToString());
-                            emp.FirstName = row["FirstName"].ToString();
-                            emp.LastName = row["FirstName"].ToString();
-                            emp.Age = int.Parse(row["FirstName"].ToString());
-                            emp.Salary = double.Parse(row["Salary"].ToString());
-                            emp.MaritalStatus = bool.Parse(row["FirstName"].ToString());
-                            empList.Add(emp);
-                        }                        
+                        emp = new EmployeeDetails();
+                        emp.EmpId = int.Parse(row["ID"].ToString());
+                        emp.FirstName = row["FirstName"].ToString();
+                        emp.LastName = row["LastName"].ToString();
+                        emp.Age = int.Parse(row["Age"].ToString());
+                        emp.MaritalStatus = bool.Parse(row["MaritalStatus"].ToString());
+                        empList.Add(emp);
                     }
                 }
                 connection.Close();

@@ -22,6 +22,12 @@ namespace EmployeeApplication.Controllers
             empVMList = empViewModel.GetEmpViewModel(empList);
             return View(empVMList);
         }
+
+        [HttpGet]
+        public ActionResult EditEmployeeInfo()
+        {
+            return View("EditEmployee");
+        }
         
         [HttpGet]
         public string Statistics()
