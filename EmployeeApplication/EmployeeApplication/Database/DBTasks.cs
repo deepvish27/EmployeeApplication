@@ -30,11 +30,12 @@ namespace EmployeeApplication.Database
             string spName = "spGetEmployeeDetails";
             using (SqlCommand command = new SqlCommand(spName))
             {
-                connection.Open();
                 command.Connection = connection;
                 command.CommandType = CommandType.StoredProcedure;
+                connection.Open();
                 adapter = new SqlDataAdapter(command);
                 adapter.Fill(data);
+                connection.Close();
 
                 if (data != null)
                 {
@@ -48,31 +49,44 @@ namespace EmployeeApplication.Database
                         emp.MaritalStatus = bool.Parse(row["MaritalStatus"].ToString());
                         empList.Add(emp);
                     }
-                }
-                connection.Close();
+                }                
             }
-
-            //EmployeeDetails emp1 = new EmployeeDetails() {
-            //    FirstName = "John",
-            //    LastName = "Terry",
-            //    Age = 28,
-            //    Salary = 100,
-            //    MaritalStatus = true };
-
-            //empList.Add(emp1);
-
-            //EmployeeDetails emp2 = new EmployeeDetails()
-            //{
-            //    FirstName = "Chris",
-            //    LastName = "Evans",
-            //    Age = 32,
-            //    Salary = 500,
-            //    MaritalStatus = true
-            //};
-
-            //empList.Add(emp2);
-
+            
             return empList;
         }
+
+        public bool AddEmployee(EmployeeDetails emp)
+        {
+            bool status = false;
+
+            try
+            {
+                SqlConnection conn = new SqlConnection(connectionString);
+                string spName = "spInsertValuesIntoEmployeeTbl";
+
+                using (SqlCommand cmd = new SqlCommand(spName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = emp.FirstName;
+                    cmd.Parameters.Add("@LastName", SqlDbType.NVarChar).Value = emp.LastName;
+                    cmd.Parameters.Add("@Age", SqlDbType.Int).Value = emp.Age;
+                    cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = emp.Salary;
+                    cmd.Parameters.Add("@MaritalStatus", SqlDbType.Bit).Value = emp.MaritalStatus;
+                    conn.Open();
+                    int affectedRows = cmd.ExecuteNonQuery();
+                    conn.Close();
+                    if (affectedRows > 0)
+                    {
+                        status = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return status;
+            }
     }
 }

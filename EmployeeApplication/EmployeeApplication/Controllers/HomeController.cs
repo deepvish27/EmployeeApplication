@@ -23,10 +23,36 @@ namespace EmployeeApplication.Controllers
             return View(empVMList);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult EditEmployeeInfo()
         {
             return View("EditEmployee");
+        }
+        
+        public ActionResult AddEmployeeView()
+        {
+            return View("AddEmployee");
+        }
+
+        [HttpPost]
+        public ActionResult AddEmployee(EmployeeDetails emp)
+        {
+            DBTasks db = new DBTasks();
+            try
+            {
+                if (db.AddEmployee(emp))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error");
+                }                
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
         
         [HttpGet]
