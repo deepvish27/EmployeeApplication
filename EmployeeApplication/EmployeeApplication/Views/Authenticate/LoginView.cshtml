@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "LoginView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EmployeeApplication.Models
+
+<h2>Login</h2>
+<div class="container" style="position:center">
+    <form action="../Authenticate/ValidateUser" method="post">
+        <table>
+            <tr>
+                <td>
+                    <span>Username: </span>
+                </td>
+                <td>
+                    <input class="form-control" type="text" id="txtUsername" name="UserName" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Password: </span>
+                </td>
+                <td>
+                    <input class="form-control" type="password" id="txtPassword" name="UserPassword" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button class="btn btn-primary" type="submit" id="btnLogin">Login</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

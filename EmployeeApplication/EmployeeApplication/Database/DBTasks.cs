@@ -72,6 +72,8 @@ namespace EmployeeApplication.Database
                     cmd.Parameters.Add("@Age", SqlDbType.Int).Value = emp.Age;
                     cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = emp.Salary;
                     cmd.Parameters.Add("@MaritalStatus", SqlDbType.Bit).Value = emp.MaritalStatus;
+                    cmd.Parameters.Add("@LocationName", SqlDbType.NVarChar).Value = emp.LocationName;
+                    cmd.Parameters.Add("@SkillName", SqlDbType.NVarChar).Value = emp.SkillName;
                     conn.Open();
                     int affectedRows = cmd.ExecuteNonQuery();
                     conn.Close();
@@ -85,8 +87,95 @@ namespace EmployeeApplication.Database
             {
                 throw ex;
             }
+            return status;
+        }
+        public List<Locations> GetLocationNames()
+        {
+            List<Locations> locations = new List<Locations>();
+            Locations location;
+            string spName = "spGetLocationNames";
+            SqlConnection conn = new SqlConnection(connectionString);
+            DataSet data = new DataSet();
+            SqlDataAdapter adapter;
+            using (SqlCommand cmd=new SqlCommand(spName))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = conn;
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(data);
+                if (data != null)
+                {
+                    foreach(DataRow row in data.Tables[0].Rows)
+                    {
+                        location = new Locations();
+                        location.Location = row["LocationName"].ToString();
+                        locations.Add(location);
+                    }
+                }
+            }
+
+            return locations;
+        }
+
+        
+        public List<Skills> GetSkillNames()
+        {
+            List<Skills> skills = new List<Skills>();
+
+            Skills skill;
+            string spName = "spGetSkillNames";
+            SqlConnection conn = new SqlConnection(connectionString);
+            DataSet data = new DataSet();
+            SqlDataAdapter adapter;
+            using (SqlCommand cmd = new SqlCommand(spName))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = conn;
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(data);
+                if (data != null)
+                {
+                    foreach (DataRow row in data.Tables[0].Rows)
+                    {
+                        skill = new Skills();
+                        skill.Skill = row["SkillName"].ToString();
+                        skills.Add(skill);
+                    }
+                }
+            }
+
+            return skills;
+        }
+
+        public bool ValidUser(LoginDetails user)
+        {
+            bool status = false;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            string spName = "spValidateUser";
+            DataSet data = new DataSet();
+            SqlDataAdapter adapter;
+
+            using (SqlCommand cmd=new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = user.UserName;
+                cmd.Parameters.Add("@UserPassword", SqlDbType.NVarChar).Value = user.UserPassword;
+                conn.Open();
+                adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(data);
+                conn.Close();
+                if (data != null && data.Tables[0].Rows.Count >0)
+                {
+                    if(Convert.ToInt32(data.Tables[0].Rows[0][0]) == 1)
+                    {
+                        status = true;
+                    }
+                }
+                
+            }
 
             return status;
-            }
+        }
     }
 }

@@ -25,13 +25,16 @@ namespace EmployeeApplication.Controllers
 
         [HttpPost]
         public ActionResult EditEmployeeInfo()
-        {
+        {            
             return View("EditEmployee");
         }
         
         public ActionResult AddEmployeeView()
         {
-            return View("AddEmployee");
+            SkillAndLocationVM skillsAndLocationNames = new SkillAndLocationVM();
+            skillsAndLocationNames.skillNames = GetSkillNames();
+            skillsAndLocationNames.locationNames = GetLocationNames();
+            return View("AddEmployee", skillsAndLocationNames);
         }
 
         [HttpPost]
@@ -59,6 +62,22 @@ namespace EmployeeApplication.Controllers
         public string Statistics()
         {
             return "Statistics will be displayed here!!";
+        }
+        
+        private List<Skills> GetSkillNames()
+        {
+            DBTasks db = new DBTasks();
+            List<Skills> skills = db.GetSkillNames();
+
+            return skills;
+        }
+        
+        private List<Locations> GetLocationNames()
+        {
+            DBTasks db = new DBTasks();
+            List<Locations> locations = db.GetLocationNames();
+
+            return locations;
         }
     }
 }

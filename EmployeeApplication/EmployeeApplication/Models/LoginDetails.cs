@@ -10,7 +10,7 @@ namespace EmployeeApplication.Models
         private string _userName;
         private string _userPassword;
 
-        public string UserName { set { _userName = value; } }
-        public string UserPassword { set { _userPassword = value; } }
+        public string UserName { get { return _userName; } set { _userName = value; } }
+        public string UserPassword { get { return _userPassword; } set { _userPassword = value; } }
     }
 }

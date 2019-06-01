@@ -3,6 +3,9 @@
     ViewBag.Title = "AddEmployee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using EmployeeApplication.ViewModels
+@using EmployeeApplication.Models;
+@model SkillAndLocationVM
 
 <div class="container">
     <h2>AddEmployee</h2>
@@ -48,8 +51,13 @@
                     <span>Marital Status</span>
                 </td>
                 <td>
-                    <input class="radio" type="radio" id="rdoMarried" name="MaritalStatus" value="true" />Married
-                    <input class="radio" type="radio" id="rdoMarried" name="MaritalStatus" value="false" />Unmarried
+                    <select id="lstMaritalStatus" name="MaritalStatus">
+                        <option value="true">Married</option>
+                        <option value="false">Unmarried</option>
+                    </select>
+
+                    @*<input class="radio" type="radio" id="rdoMarried" name="MaritalStatus" value="true" />Married
+                    <input class="radio" type="radio" id="rdoMarried" name="MaritalStatus" value="false" />Unmarried*@
                 </td>
             </tr>
             <tr>
@@ -57,13 +65,12 @@
                     <span>Location</span>
                 </td>
                 <td>
-                    <select class="dropdown" id="lstLocation" name="Location">
+                    <select class="dropdown" id="lstLocation" name="LocationName">
                         <option>Select Location</option>
-                        <option>Nagpur</option>
-                        <option>Pune</option>
-                        <option>Mumbai</option>
-                        <option>Chennai</option>
-                        <option>Hyderabad</option>
+                        @foreach(Locations item in Model.locationNames)
+                        {
+                            <option>@item.Location</option>
+                        }
                     </select>
                 </td>
             </tr>
@@ -72,12 +79,12 @@
                     <span>Skills</span>
                 </td>
                 <td>
-                    <select class="" id="lstSkills" name="Skills">
-                        <option>Select Skill</option>
-                        <option>.NET</option>
-                        <option>Java</option>
-                        <option>Python</option>
-                        <option>BI</option>
+                    <select class="" id="lstSkill" name="SkillName">
+                        <option>Select Skill</option>  
+                        @foreach(Skills item in Model.skillNames)
+                        {
+                            <option>@item.Skill</option>
+                        }
                     </select>
                 </td>
             </tr>
