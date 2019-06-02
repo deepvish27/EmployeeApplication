@@ -22,11 +22,23 @@ namespace EmployeeApplication.Controllers
             empVMList = empViewModel.GetEmpViewModel(empList);
             return View(empVMList);
         }
+        
+        public ActionResult EditEmployeeById(int id)
+        {
+            DBTasks db = new DBTasks();
+            EmployeeDetails emp = db.GetEmployeeById(id);
 
-        [HttpPost]
-        public ActionResult EditEmployeeInfo()
-        {            
-            return View("EditEmployee");
+            EditEmployeeVM editEmp = new EditEmployeeVM();
+            editEmp.ID = emp.EmpId;
+            editEmp.FirstName = emp.FirstName;
+            editEmp.LastName = emp.LastName;
+            editEmp.Age = emp.Age;
+            editEmp.Salary = emp.Salary;
+            editEmp.MaritalStatus = emp.MaritalStatus;
+            editEmp.LocationName = emp.LocationName;
+            editEmp.SkillName = emp.SkillName;
+
+            return View("EditEmployee", editEmp);
         }
         
         public ActionResult AddEmployeeView()
@@ -35,6 +47,24 @@ namespace EmployeeApplication.Controllers
             skillsAndLocationNames.skillNames = GetSkillNames();
             skillsAndLocationNames.locationNames = GetLocationNames();
             return View("AddEmployee", skillsAndLocationNames);
+        }
+
+        public ActionResult RemoveEmployeeView()
+        {
+            return View("RemoveEmployeeView");
+        }
+        [HttpPost]
+        public ActionResult RemoveEmployee(int id)
+        {
+            DBTasks db = new DBTasks();
+            if (db.RemoveEmployee(id))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
         }
 
         [HttpPost]

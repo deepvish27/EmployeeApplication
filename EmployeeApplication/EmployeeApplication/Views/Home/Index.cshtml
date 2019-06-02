@@ -9,37 +9,51 @@
     <h3>Employee Details</h3>
 </div>
 <div class="container" style="position:center">
-    <table class="table table-bordered table-sm">
-        <tr class="bg-primary">
-            <th>
-                Employee ID
-            </th>
-            <th>
-                Employee Name
-            </th>
-            <th>
-                Age
-            </th>
-            <th>
-                Marital Status
-            </th>
-        </tr>
-        @foreach(EmployeeViewModel empVM in Model)
-        {
-            <tr>
-                <td>
-                    <a href="~/Home/EditEmployeeInfo">@empVM.EmpID</a>
-                </td>
-                <td>
-                    <a href="~/Home/EditEmployeeInfo">
-                        @empVM.EmpCompleteName
-                    </a>
-                </td>
-                <td>@empVM.Age</td>
-                <td>@empVM.MaritalStatus</td>
-            </tr>
-        }
-    </table>
     
+        <table class="table table-bordered table-sm">
+            <tr class="bg-primary">
+                <th>
+                    Employee ID
+                </th>
+                <th>
+                    Employee Name
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Marital Status
+                </th>
+            </tr>
+            @foreach (EmployeeViewModel empVM in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(
+                       ""+empVM.EmpID, 
+                       "EditEmployeeById", 
+                       "Home", 
+                       new { id=empVM.EmpID},null)
+                    </td>
+                    <td>
+                        @Html.ActionLink(
+                       "" + empVM.EmpCompleteName, 
+                       "EditEmployeeById", 
+                       "Home", 
+                       new { id=empVM.EmpID},null)
+                    </td>
+                    <td>@empVM.Age</td>
+                    <td>@empVM.MaritalStatus</td>
+                </tr>
+            }
+        </table>
+        <script type="text/javascript">
+            function EditEmp() {
+                var data = $(this).val();
+             
+            }
+        </script>
+   
     <button class="btn btn-info" id="btnAddEmployee" onclick="location.href='../Home/AddEmployeeView'">Add Employee</button>
+    <button class="btn btn-danger" id="btnRemoveEmployee" onclick="location.href='../Home/RemoveEmployeeView'">Remove Employee</button>
 </div>

@@ -18,6 +18,17 @@ namespace EmployeeApplication
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Authenticate", action = "LoginView", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                "RemoveEmployee", 
+                "{controller}/{action}/{id}", 
+                new { controller = "Home", action = "RemoveEmployee" });
+
+            //routes.MapRoute(
+            //    "EditEmployee",
+            //    "{controller}/{action}/{id}|{EmployeeFullName}",
+            //    new { controller = "Home", action = "EditEmployee" }
+            //    );
         }
     }
 }

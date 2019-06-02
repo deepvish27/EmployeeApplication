@@ -171,11 +171,62 @@ namespace EmployeeApplication.Database
                     {
                         status = true;
                     }
+                }                
+            }
+            return status;
+        }
+
+        public bool RemoveEmployee(int id)
+        {
+            bool status = false;
+
+            string spName = "spRemoveEmployee";
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            using(SqlCommand cmd=new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                conn.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    status = true;
                 }
-                
+                conn.Close();
+            }
+            return status;
+        }
+
+        public EmployeeDetails GetEmployeeById(int id)
+        {
+            EmployeeDetails emp = new EmployeeDetails();
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            DataSet data = new DataSet();
+            SqlDataAdapter adapter;
+            string spName = "spGetEmployeeById";
+            using(SqlCommand cmd=new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                adapter = new SqlDataAdapter(cmd);
+                conn.Open();
+                adapter.Fill(data);
+                conn.Close();
+                if (data != null && data.Tables[0].Rows.Count > 0)
+                {
+                    emp.EmpId = Convert.ToInt32(data.Tables[0].Rows[0]["ID"]);
+                    emp.FirstName = data.Tables[0].Rows[0]["FirstName"].ToString();
+                    emp.LastName = data.Tables[0].Rows[0]["LastName"].ToString();
+                    emp.Age = Convert.ToInt32(data.Tables[0].Rows[0]["Age"]);
+                    emp.Salary = Convert.ToDouble(data.Tables[0].Rows[0]["Salary"]);
+                    emp.MaritalStatus = Convert.ToInt16(data.Tables[0].Rows[0]["MaritalStatus"]) == 1 ? true : false;
+                    emp.LocationName = data.Tables[0].Rows[0]["LocationName"].ToString();
+                    emp.SkillName = data.Tables[0].Rows[0]["SkillName"].ToString();
+                }
             }
 
-            return status;
+            return emp;
         }
     }
 }

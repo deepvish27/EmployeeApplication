@@ -3,6 +3,95 @@
     ViewBag.Title = "EditEmployee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model EmployeeApplication.ViewModels.EditEmployeeVM
 
-<h2>EditEmployee</h2>
+<h2>Edit Employee Details</h2>
+<div class="container">
+    <form action="..Home/UpdateEmployeeInfo">
+        <table align="center">
+            <tr>
+                <td>
+                    <span>ID</span>
+                </td>
+                <td>
+                    <input type="number" class="form-control" name="ID" disabled value="@Model.ID" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>First Name:</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="txtEditEmpFirstName" name="FirstName" value="@Model.FirstName" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Last Name:</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="txtEditEmpLastName" name="LastName" value="@Model.LastName" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Age:</span>
+                </td>
+                <td>
+                    <input type="number" class="form-control" id="numEditEmpAge" name="Age" value="@Model.Age" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Salary:</span>
+                </td>
+                <td>
+                    <input type="number" class="form-control" id="numEditEmpSalary" value="@Model.Salary" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Marital Status:</span>
+                </td>
+                <td>
+                    <select name="MaritalStatus">
+                        @if (Model.MaritalStatus == true)
+                        {
+                            <option value="true" selected="selected">Married</option>
+                        }
+                        else
+                        {
+                            <option value="false" selected="selected">Unmarried</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Location:</span>
+                </td>
+                <td>
+                    <select name="Location">
+                        <option>@Model.LocationName</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Skills:</span>
+                </td>
+                <td>
+                    <select name="Skill">
+                        <option>@Model.SkillName</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-warning" type="submit" id="btnUpdateEmpInfo">Update Employee</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
