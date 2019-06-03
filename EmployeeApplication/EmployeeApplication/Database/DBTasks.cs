@@ -89,6 +89,34 @@ namespace EmployeeApplication.Database
             }
             return status;
         }
+
+        public bool UpdateEmployeeDetails(EmployeeDetails emp)
+        {
+            bool status = false;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            string spName = "spUpdateEmployeeDetails";
+            using(SqlCommand cmd=new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = emp.EmpId;
+                cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = emp.FirstName;
+                cmd.Parameters.Add("@LastName", SqlDbType.NVarChar).Value = emp.LastName;
+                cmd.Parameters.Add("@Age", SqlDbType.Int).Value = emp.Age;
+                cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = emp.Salary;
+                cmd.Parameters.Add("@MaritalStatus", SqlDbType.Int).Value = emp.MaritalStatus;
+                cmd.Parameters.Add("@LocationName", SqlDbType.NVarChar).Value = emp.LocationName;
+                cmd.Parameters.Add("@SkillName", SqlDbType.NVarChar).Value = emp.SkillName;
+                conn.Open();
+                if (cmd.ExecuteNonQuery() > 0)
+                {
+                    status = true;
+                }
+                conn.Close();
+            }
+            return status;
+        }
+
         public List<Locations> GetLocationNames()
         {
             List<Locations> locations = new List<Locations>();

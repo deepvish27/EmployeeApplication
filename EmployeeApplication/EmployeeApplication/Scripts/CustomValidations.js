@@ -20,7 +20,13 @@
         
 //    }
 //});
-
-$('document').ready({
-    
-})
+function CheckIfEmpty() {
+    var userName = $('#txtUsername').val();
+    var userPassword = $('#txtPassword').val();
+    if (userName == "" || userPassword == "") {
+        $('#lblValidationMsg').removeAttr('hidden');
+        $('#lblValidationMsg').val("Username/Password cannot be empty!");
+        return false;
+    }
+    return true;
+}

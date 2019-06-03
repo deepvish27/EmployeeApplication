@@ -48,22 +48,26 @@ namespace EmployeeApplication.Controllers
             skillsAndLocationNames.locationNames = GetLocationNames();
             return View("AddEmployee", skillsAndLocationNames);
         }
-
-        public ActionResult RemoveEmployeeView()
-        {
-            return View("RemoveEmployeeView");
-        }
-        [HttpPost]
+        
         public ActionResult RemoveEmployee(int id)
         {
             DBTasks db = new DBTasks();
-            if (db.RemoveEmployee(id))
+            try
             {
-                return RedirectToAction("Index");
+                if (db.RemoveEmployee(id))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    CustomError errMsg = new CustomError("An error occurred!");
+                    return RedirectToAction("Error", errMsg);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Error");
+                CustomError errMsg = new CustomError("An error occurred: " + ex.Message);
+                return View("Error", errMsg);
             }
         }
 
@@ -79,12 +83,36 @@ namespace EmployeeApplication.Controllers
                 }
                 else
                 {
-                    return View("Error");
+                    CustomError errMsg = new CustomError("An error occurred!");
+                    return View("Error", errMsg);
                 }                
             }
             catch (Exception ex)
             {
-                return View("Error");
+                CustomError errMsg = new CustomError("An error occurred: " + ex.Message);
+                return View("Error", errMsg);
+            }
+        }
+        [HttpPost]
+        public ActionResult UpdateEmployeeDetails(EmployeeDetails emp)
+        {
+            DBTasks db = new DBTasks();
+            try
+            {
+                if (db.UpdateEmployeeDetails(emp))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    CustomError errMsg = new CustomError("An error occurred!");
+                    return View("Error", errMsg);
+                }
+            }
+            catch(Exception ex)
+            {
+                CustomError errMsg = new CustomError("An error occurred: " + ex.Message);
+                return View("Error", errMsg);
             }
         }
         

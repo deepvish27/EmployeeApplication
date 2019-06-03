@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
+﻿@{
+    ViewBag.Title = "Error";
+}
+
+@using EmployeeApplication.Models
+@model CustomError
 <body>
     <hgroup>
         <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
+        <h2>Error Message: @Model.CustomErrorMessage</h2>
     </hgroup>
 </body>
 </html>

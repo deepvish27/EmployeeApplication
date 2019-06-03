@@ -154,6 +154,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomError.cs" />
     <Compile Include="Models\EmployeeDetails.cs" />
     <Compile Include="Models\Locations.cs" />
     <Compile Include="Models\LoginDetails.cs" />
@@ -204,7 +205,6 @@
     <Content Include="Views\Home\EditEmployee.cshtml" />
     <Content Include="Views\Home\AddEmployee.cshtml" />
     <Content Include="Views\Authenticate\LoginView.cshtml" />
-    <Content Include="Views\Home\RemoveEmployeeView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

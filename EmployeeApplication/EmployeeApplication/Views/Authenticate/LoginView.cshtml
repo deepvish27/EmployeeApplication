@@ -11,26 +11,59 @@
         <table>
             <tr>
                 <td>
-                    <span>Username: </span>
+                    <span>Username:&nbsp;</span>
                 </td>
                 <td>
                     <input class="form-control" type="text" id="txtUsername" name="UserName" />
                 </td>
             </tr>
             <tr>
+                <td colspan="2">
+                    <br />
+                </td>
+            </tr>
+            <tr>
                 <td>
-                    <span>Password: </span>
+                    <span>Password:&nbsp;</span>
                 </td>
                 <td>
                     <input class="form-control" type="password" id="txtPassword" name="UserPassword" />
                 </td>
             </tr>
             <tr>
+                <td colspan="2">
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.ValidationMessage("ValidateUserNamePassword", new { style = "color:red" })
+                    <label hidden="hidden" id="lblValidationMsg" style="color:red;"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br />
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center">
-                    <button class="btn btn-primary" type="submit" id="btnLogin">Login</button>
+                    <button class="btn btn-primary" type="submit" id="btnLogin" onclick="return CheckIfEmpty()">Login</button>
                 </td>
             </tr>
         </table>
     </form>
+    <script type="text/javascript">
+        function CheckIfEmpty() {
+            var userName = $('#txtUsername').val();
+            var userPassword = $('#txtPassword').val();
+            if (userName == "" || userPassword == "") {
+                $('#lblValidationMsg').removeAttr('hidden');
+                $('#lblValidationMsg').text(("Username/Password cannot be empty!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </div>
 
