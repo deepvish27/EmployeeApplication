@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model EmployeeApplication.ViewModels.EditEmployeeVM
+@using EmployeeApplication.Models
 
 <h2>Edit Employee Details</h2>
 <div class="container">
@@ -14,7 +15,7 @@
                     <span>ID:</span>
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="EmpId" readonly="readonly" value="@Model.ID" />
+                    <input type="number" class="form-control" name="EmpId" readonly="readonly" value="@Model.empDetails.EmpId" />
                 </td>
             </tr>
             <tr>
@@ -27,7 +28,7 @@
                     <span>First Name:</span>
                 </td>
                 <td>
-                    <input type="text" class="form-control" id="txtEditEmpFirstName" name="FirstName" value="@Model.FirstName" />
+                    <input type="text" class="form-control" id="txtEditEmpFirstName" name="FirstName" value="@Model.empDetails.FirstName" />
                 </td>
             </tr>
             <tr>
@@ -40,7 +41,7 @@
                     <span>Last Name:</span>
                 </td>
                 <td>
-                    <input type="text" class="form-control" id="txtEditEmpLastName" name="LastName" value="@Model.LastName" />
+                    <input type="text" class="form-control" id="txtEditEmpLastName" name="LastName" value="@Model.empDetails.LastName" />
                 </td>
             </tr>
             <tr>
@@ -53,7 +54,7 @@
                     <span>Age:</span>
                 </td>
                 <td>
-                    <input type="number" class="form-control" id="numEditEmpAge" name="Age" value="@Model.Age" />
+                    <input type="number" class="form-control" id="numEditEmpAge" name="Age" value="@Model.empDetails.Age" />
                 </td>
             </tr>
             <tr>
@@ -66,7 +67,7 @@
                     <span>Salary:</span>
                 </td>
                 <td>
-                    <input type="number" class="form-control" id="numEditEmpSalary" name="Salary" value="@Model.Salary" />
+                    <input type="number" class="form-control" id="numEditEmpSalary" name="Salary" value="@Model.empDetails.Salary" />
                 </td>
             </tr>
             <tr>
@@ -80,12 +81,14 @@
                 </td>
                 <td>
                     <select name="MaritalStatus">
-                        @if (Model.MaritalStatus == true)
+                        @if (Model.empDetails.MaritalStatus == true)
                         {
                             <option value="true" selected="selected">Married</option>
+                            <option value="false">Unmarried</option>
                         }
                         else
                         {
+                            <option value="true">Married</option>
                             <option value="false" selected="selected">Unmarried</option>
                         }
                     </select>
@@ -101,8 +104,17 @@
                     <span>Location:</span>
                 </td>
                 <td>
-                    <select name="LocationName">
-                        <option>@Model.LocationName</option>
+                    <select name="LocationName" id="lstEditLocation">
+                        <option value="default">Select Location</option>
+                        <option selected="selected">@Model.empDetails.LocationName</option>
+                        @foreach(Locations item in Model.LocationList)
+                        {
+                            if(item.Location == Model.empDetails.LocationName)
+                            {
+                                continue;
+                            }
+                            <option>@item.Location</option>
+                        }
                     </select>
                 </td>
             </tr>
@@ -116,8 +128,17 @@
                     <span>Skills:</span>
                 </td>
                 <td>
-                    <select name="SkillName">
-                        <option>@Model.SkillName</option>
+                    <select name="SkillName" id="lstEditSkill">
+                        <option value="default">Select Skill</option>
+                        <option selected="selected">@Model.empDetails.SkillName</option>
+                        @foreach(Skills item in Model.skillList)
+                        {
+                            if(item.Skill == Model.empDetails.SkillName)
+                            {
+                                continue;
+                            }
+                            <option>@item.Skill</option>
+                        }
                     </select>
                 </td>
             </tr>
@@ -128,7 +149,12 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button class="btn btn-warning" type="submit" id="btnUpdateEmpInfo">Update Employee</button>
+                    <label id="lblEditValidationMsg" hidden="hidden" style="color:red;"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-warning" type="submit" id="btnUpdateEmpInfo" onclick="return ValidateEditForm()">Update Employee</button>
                 </td>
             </tr>
         </table>

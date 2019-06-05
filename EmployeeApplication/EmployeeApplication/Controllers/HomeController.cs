@@ -29,14 +29,9 @@ namespace EmployeeApplication.Controllers
             EmployeeDetails emp = db.GetEmployeeById(id);
 
             EditEmployeeVM editEmp = new EditEmployeeVM();
-            editEmp.ID = emp.EmpId;
-            editEmp.FirstName = emp.FirstName;
-            editEmp.LastName = emp.LastName;
-            editEmp.Age = emp.Age;
-            editEmp.Salary = emp.Salary;
-            editEmp.MaritalStatus = emp.MaritalStatus;
-            editEmp.LocationName = emp.LocationName;
-            editEmp.SkillName = emp.SkillName;
+            editEmp.empDetails = emp;
+            editEmp.skillList = GetSkillNames();
+            editEmp.LocationList = GetLocationNames();
 
             return View("EditEmployee", editEmp);
         }
@@ -115,13 +110,7 @@ namespace EmployeeApplication.Controllers
                 return View("Error", errMsg);
             }
         }
-        
-        [HttpGet]
-        public string Statistics()
-        {
-            return "Statistics will be displayed here!!";
-        }
-        
+               
         private List<Skills> GetSkillNames()
         {
             DBTasks db = new DBTasks();

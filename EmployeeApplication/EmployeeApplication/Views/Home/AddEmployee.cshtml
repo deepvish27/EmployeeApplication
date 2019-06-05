@@ -63,7 +63,7 @@
                 </td>
                 <td>
                     <select class="dropdown" id="lstLocation" name="LocationName">
-                        <option>Select Location</option>
+                        <option value="default">Select Location</option>
                         @foreach(Locations item in Model.locationNames)
                         {
                             <option>@item.Location</option>
@@ -77,7 +77,7 @@
                 </td>
                 <td>
                     <select class="" id="lstSkill" name="SkillName">
-                        <option>Select Skill</option>  
+                        <option value="default">Select Skill</option>  
                         @foreach(Skills item in Model.skillNames)
                         {
                             <option>@item.Skill</option>
@@ -87,7 +87,12 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="submit" id="btnAddEmployee" class="btn btn-primary">Add Employee</button>
+                    <label id="lblAddValidationMsg" style="color:red;" hidden="hidden"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" id="btnAddEmployee" class="btn btn-primary" onclick="return ValidateAddForm()">Add Employee</button>
                 </td>
             </tr>
         </table>

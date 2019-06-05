@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    @Html.ValidationMessage("ValidateUserNamePassword", new { style = "color:red" })
+                    <label id="lblValidateMsg">@Html.ValidationMessage("ValidateUserNamePassword", new { style = "color:red" })</label>
                     <label hidden="hidden" id="lblValidationMsg" style="color:red;"></label>
                 </td>
             </tr>
@@ -58,8 +58,9 @@
             var userName = $('#txtUsername').val();
             var userPassword = $('#txtPassword').val();
             if (userName == "" || userPassword == "") {
-                $('#lblValidationMsg').removeAttr('hidden');
-                $('#lblValidationMsg').text(("Username/Password cannot be empty!");
+                $('#lblValidateMsg').attr("hidden","hidden");
+                $('#lblValidationMsg').removeAttr("hidden");                
+                $('#lblValidationMsg').text("Username/Password cannot be empty!");
                 return false;
             }
             return true;
