@@ -1,4 +1,5 @@
 ﻿using EmployeeApplication.Models;
+using EmployeeApplication.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -255,6 +256,62 @@ namespace EmployeeApplication.Database
             }
 
             return emp;
+        }
+
+        public List<EmployeeViewModel> SearchEmployee(string searchBy, string searchValue)
+        {
+            List<EmployeeViewModel> empResult = new List<EmployeeViewModel>();
+            EmployeeViewModel emp;
+            SqlConnection conn = new SqlConnection(connectionString);
+            DataSet data = new DataSet();
+            SqlDataAdapter adapter;
+            string paramName = string.Empty;
+            SqlDbType paramType = new SqlDbType();
+            using (SqlCommand cmd=new SqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                switch (searchBy)
+                {
+                    case "Age":
+                        cmd.CommandText = "spSearchEmpByAge";
+                        paramName = "@Age";
+                        paramType = SqlDbType.Int;
+                        break;
+
+                    case "Salary":
+                        cmd.CommandText = "spSearchEmpBySalary";
+                        paramName = "@Salary";
+                        paramType = SqlDbType.Decimal;
+                        break;
+
+                    case "Location":
+                        cmd.CommandText = "spSearchEmpByLocation";
+                        paramName = "@Location";
+                        paramType = SqlDbType.NVarChar;
+                        break;
+                }
+
+                cmd.Parameters.Add(paramName, paramType).Value = searchValue;
+                adapter = new SqlDataAdapter(cmd);
+                conn.Open();
+                adapter.Fill(data);
+                conn.Close();
+                if (data != null && data.Tables[0].Rows.Count > 0)
+                {
+                    foreach(DataRow row in data.Tables[0].Rows)
+                    {
+                        emp = new EmployeeViewModel();
+                        emp.EmpID = Convert.ToInt32(row["ID"]);
+                        emp.EmpCompleteName = string.Format("{0} {1}", row["FirstName"], row["LastName"]);
+                        emp.Age = Convert.ToInt32(row["Age"]);
+                        emp.MaritalStatus = Convert.ToInt32(row["MaritalStatus"]) == 1 ? "Married" : "Unmarried";
+                        empResult.Add(emp);
+                    }
+                }
+            }
+
+            return empResult;
         }
     }
 }

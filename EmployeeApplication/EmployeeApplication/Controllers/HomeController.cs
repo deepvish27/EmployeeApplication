@@ -35,6 +35,22 @@ namespace EmployeeApplication.Controllers
 
             return View("EditEmployee", editEmp);
         }
+        [HttpPost]
+        public ActionResult SearchEmployee(string searchBy, string SearchValue)
+        {
+            SearchValue = Server.HtmlEncode(SearchValue);
+            List<EmployeeViewModel> empResult = new List<EmployeeViewModel>();
+            if (!string.IsNullOrEmpty(searchBy))
+            {
+                if (!string.IsNullOrEmpty(SearchValue))
+                {
+                    DBTasks db = new DBTasks();
+                    empResult = db.SearchEmployee(searchBy, SearchValue);
+                    return View("Index", empResult);
+                }
+            }
+            return RedirectToAction("Index");
+        }
         
         public ActionResult AddEmployeeView()
         {

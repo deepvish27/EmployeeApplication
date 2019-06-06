@@ -170,3 +170,30 @@ begin
 Declare @ID int;
 Select @ID = ID from inserted ins;
 end
+
+create proc spSearchEmpByAge
+@Age int
+as
+begin
+Select emp.ID,emp.FirstName,emp.LastName,emp.Age,emp.MaritalStatus from [dbo].[tblEmployee] emp where emp.Age = @Age;
+end
+
+create proc spSearchEmpBySalary
+@Salary decimal(10,2)
+as
+begin
+Select emp.ID,emp.FirstName,emp.LastName,emp.Age,emp.MaritalStatus from [dbo].[tblEmployee] emp where emp.Salary = @Salary;
+end
+
+alter proc spSearchEmpByLocation
+@Location nvarchar(50)
+as
+begin
+Declare @LocationId int
+Select @LocationId = loc.LocationId from [dbo].[tblLocation] loc where loc.LocationName = @Location;
+Select emp.ID,emp.FirstName,emp.LastName,emp.Age,emp.MaritalStatus from [dbo].[tblEmployee] emp where emp.Location = @LocationId;
+end
+
+spSearchEmpByAge 34
+spSearchEmpBySalary 100
+spSearchEmpByLocation 'Chennai'

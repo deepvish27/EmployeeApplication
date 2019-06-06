@@ -5,44 +5,84 @@
 @using EmployeeApplication.ViewModels
 @model List<EmployeeViewModel>
 
-<div class="container" style="position:center;">
-    <h3>Employee Details</h3>
-</div>
-<div class="container" style="position:center">
-
-    <table class="table table-bordered table-sm">
-        <tr class="bg-primary">
-            <th>
-                Employee ID
-            </th>
-            <th>
-                Employee Name
-            </th>
-            <th>
-                Age
-            </th>
-            <th>
-                Marital Status
-            </th>
-            <th>
-            </th>
-        </tr>
-        @foreach (EmployeeViewModel empVM in Model)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("" + empVM.EmpID, "EditEmployeeById", "Home", new { id = empVM.EmpID }, null)
-                </td>
-                <td>
-                    @Html.ActionLink("" + empVM.EmpCompleteName, "EditEmployeeById", "Home", new { id = empVM.EmpID }, null)
-                </td>
-                <td>@empVM.Age</td>
-                <td>@empVM.MaritalStatus</td>
-                <td>
-                    @Html.ActionLink("Remove Employee", "RemoveEmployee", "Home", new { id = empVM.EmpID }, null)
-                </td>
+<div class="row" style="position:center;">
+    <div class="col-md-3">
+        <h3>Employee Details</h3>
+    </div>
+    <div class="col-md-9">
+        <form action="../Home/SearchEmployee" method="post">
+            <table style="float:right">
+                <tr>
+                    <td>
+                        <label>Search By:&nbsp;</label>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="radio" value="Age" name="searchBy" />&nbsp;
+                    </td>
+                    <td>
+                        <span>Age</span>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="radio" value="Salary" name="searchBy" />&nbsp;
+                    </td>
+                    <td>
+                        <span>Salary</span>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="radio" value="Location" name="searchBy" />&nbsp;
+                    </td>
+                    <td>
+                        <span>Location</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <input type="text" class="" id="txtSearchBox" name="SearchValue" />&nbsp;
+                    </td>
+                    <td colspan="3">
+                        <button type="submit" class="" id="btnSearchEmployee">Search</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="container" style="position:center">
+        <table class="table table-bordered table-sm">
+            <tr class="bg-primary">
+                <th>
+                    Employee ID
+                </th>
+                <th>
+                    Employee Name
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Marital Status
+                </th>
+                <th>
+                </th>
             </tr>
-        }
-    </table>
-    <button class="btn btn-info" id="btnAddEmployee" onclick="location.href='../Home/AddEmployeeView'">Add Employee</button>
-</div>
+            @foreach (EmployeeViewModel empVM in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("" + empVM.EmpID, "EditEmployeeById", "Home", new { id = empVM.EmpID }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("" + empVM.EmpCompleteName, "EditEmployeeById", "Home", new { id = empVM.EmpID }, null)
+                    </td>
+                    <td>@empVM.Age</td>
+                    <td>@empVM.MaritalStatus</td>
+                    <td>
+                        @Html.ActionLink("Remove Employee", "RemoveEmployee", "Home", new { id = empVM.EmpID }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+        <button class="btn btn-info" id="btnAddEmployee" onclick="location.href='../Home/AddEmployeeView'">Add Employee</button>
+    </div>
