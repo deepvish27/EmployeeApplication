@@ -5,66 +5,55 @@
 }
 @using EmployeeApplication.Models
 
-<h2>Login</h2>
-<div class="container" style="position:center">
-    <form action="../Authenticate/ValidateUser" method="post">
-        <table>
-            <tr>
-                <td>
-                    <span>Username:&nbsp;</span>
-                </td>
-                <td>
-                    <input class="form-control" type="text" id="txtUsername" name="UserName" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Password:&nbsp;</span>
-                </td>
-                <td>
-                    <input class="form-control" type="password" id="txtPassword" name="UserPassword" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label id="lblValidateMsg">@Html.ValidationMessage("ValidateUserNamePassword", new { style = "color:red" })</label>
-                    <label hidden="hidden" id="lblValidationMsg" style="color:red;"></label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <button class="btn btn-primary" type="submit" id="btnLogin" onclick="return CheckIfEmpty()">Login</button>
-                </td>
-            </tr>
-        </table>
-    </form>
-    <script type="text/javascript">
-        function CheckIfEmpty() {
-            var userName = $('#txtUsername').val();
-            var userPassword = $('#txtPassword').val();
-            if (userName == "" || userPassword == "") {
-                $('#lblValidateMsg').attr("hidden","hidden");
-                $('#lblValidationMsg').removeAttr("hidden");                
-                $('#lblValidationMsg').text("Username/Password cannot be empty!");
-                return false;
+<div style="border:1px;border-color:grey;">
+    <div class="text-center" style="padding:20px">
+        <h4>Login</h4>
+    </div>
+    <div class="container">
+        <form class="form-group" action="../Authenticate/ValidateUser" method="post">
+            <table align="center" class="table table-borderless" style="width:35%">
+                <tr>
+                    <td>
+                        <span>Username:&nbsp;</span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" id="txtUsername" name="UserName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Password:&nbsp;</span>
+                    </td>
+                    <td>
+                        <input class="form-control" type="password" id="txtPassword" name="UserPassword" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label id="lblValidateMsg">@Html.ValidationMessage("ValidateUserNamePassword", new { style = "color:red" })</label>
+                        <label hidden="hidden" id="lblValidationMsg" style="color:red;"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="btn btn-primary" type="submit" id="btnLogin" onclick="return CheckIfEmpty()">Login</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <script type="text/javascript">
+            function CheckIfEmpty() {
+                var userName = $('#txtUsername').val();
+                var userPassword = $('#txtPassword').val();
+                if (userName == "" || userPassword == "") {
+                    $('#lblValidateMsg').attr("hidden", "hidden");
+                    $('#lblValidationMsg').removeAttr("hidden");
+                    $('#lblValidationMsg').text("Username/Password cannot be empty!");
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
-    </script>
+        </script>
+    </div>
 </div>
 

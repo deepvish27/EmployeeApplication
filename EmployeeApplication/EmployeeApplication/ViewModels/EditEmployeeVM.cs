@@ -9,7 +9,7 @@ namespace EmployeeApplication.ViewModels
     public class EditEmployeeVM
     {
         public EmployeeDetails empDetails { get; set; }
-        public List<Skills> skillList { get; set; }
+        public List<Skills> SkillNames { get; set; }
         public List<Locations> LocationList { get; set; }
     }
 }

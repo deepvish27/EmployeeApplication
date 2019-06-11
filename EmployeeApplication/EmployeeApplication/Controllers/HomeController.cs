@@ -29,12 +29,13 @@ namespace EmployeeApplication.Controllers
             EmployeeDetails emp = db.GetEmployeeById(id);
 
             EditEmployeeVM editEmp = new EditEmployeeVM();
-            editEmp.empDetails = emp;
-            editEmp.skillList = GetSkillNames();
+            editEmp.empDetails = emp;            
             editEmp.LocationList = GetLocationNames();
+            editEmp.SkillNames = GetSkillNames();
 
             return View("EditEmployee", editEmp);
         }
+
         [HttpPost]
         public ActionResult SearchEmployee(string searchBy, string SearchValue)
         {
@@ -104,6 +105,7 @@ namespace EmployeeApplication.Controllers
                 return View("Error", errMsg);
             }
         }
+
         [HttpPost]
         public ActionResult UpdateEmployeeDetails(EmployeeDetails emp)
         {
@@ -126,7 +128,23 @@ namespace EmployeeApplication.Controllers
                 return View("Error", errMsg);
             }
         }
-               
+
+        [HttpPost]
+        public ActionResult UpdateEmployeeSkill(string id, string Skills)
+        {
+            DBTasks db = new DBTasks();
+            if(db.UpdateEmployeeSkills(Convert.ToInt32(id), Skills))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                CustomError errMsg = new CustomError("An error occurred!");
+                return View("Error", errMsg);
+            }
+        }
+
+
         private List<Skills> GetSkillNames()
         {
             DBTasks db = new DBTasks();

@@ -6,158 +6,160 @@
 @model EmployeeApplication.ViewModels.EditEmployeeVM
 @using EmployeeApplication.Models
 
-<h2>Edit Employee Details</h2>
-<div class="container">
-    <form action="/Home/UpdateEmployeeDetails" method="post">
-        <table align="center">
-            <tr>
-                <td>
-                    <span>ID:</span>
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="EmpId" readonly="readonly" value="@Model.empDetails.EmpId" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>First Name:</span>
-                </td>
-                <td>
-                    <input type="text" class="form-control" id="txtEditEmpFirstName" name="FirstName" value="@Model.empDetails.FirstName" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Last Name:</span>
-                </td>
-                <td>
-                    <input type="text" class="form-control" id="txtEditEmpLastName" name="LastName" value="@Model.empDetails.LastName" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Age:</span>
-                </td>
-                <td>
-                    <input type="number" class="form-control" id="numEditEmpAge" name="Age" value="@Model.empDetails.Age" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Salary:</span>
-                </td>
-                <td>
-                    <input type="number" class="form-control" id="numEditEmpSalary" name="Salary" value="@Model.empDetails.Salary" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Marital Status:&nbsp;</span>
-                </td>
-                <td>
-                    <select name="MaritalStatus">
-                        @if (Model.empDetails.MaritalStatus == true)
-                        {
-                            <option value="true" selected="selected">Married</option>
-                            <option value="false">Unmarried</option>
-                        }
-                        else
-                        {
-                            <option value="true">Married</option>
-                            <option value="false" selected="selected">Unmarried</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Location:</span>
-                </td>
-                <td>
-                    <select name="LocationName" id="lstEditLocation">
-                        <option value="default">Select Location</option>
-                        <option selected="selected">@Model.empDetails.LocationName</option>
-                        @foreach(Locations item in Model.LocationList)
-                        {
-                            if(item.Location == Model.empDetails.LocationName)
-                            {
-                                continue;
-                            }
-                            <option>@item.Location</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Skills:</span>
-                </td>
-                <td>
-                    <select name="SkillName" id="lstEditSkill">
-                        <option value="default">Select Skill</option>
-                        <option selected="selected">@Model.empDetails.SkillName</option>
-                        @foreach(Skills item in Model.skillList)
-                        {
-                            if(item.Skill == Model.empDetails.SkillName)
-                            {
-                                continue;
-                            }
-                            <option>@item.Skill</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label id="lblEditValidationMsg" hidden="hidden" style="color:red;"></label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <button class="btn btn-warning" type="submit" id="btnUpdateEmpInfo" onclick="return ValidateEditForm()">Update Employee</button>
-                </td>
-            </tr>
-        </table>
-    </form>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" tabindex="0" target="_self" role="tab" data-toggle="tab" href="#empDetails">Edit Details</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" tabindex="0" target="_self" role="tab" data-toggle="tab" href="#empSkills">Edit Skills</a>
+    </li>    
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="empDetails">
+        <div class="text-center" style="padding-top:20px;padding-bottom:20px;">
+            <h4 style="">Edit Employee Details</h4>
+        </div>
+        <div class="container">
+            <form action="/Home/UpdateEmployeeDetails" method="post">
+                <table class="table table-borderless" align="center" style="width:45%">
+                    <tr>
+                        <td>
+                            <span>ID:</span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="EmpId" readonly="readonly" value="@Model.empDetails.EmpId" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>First Name:</span>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="txtEditEmpFirstName" name="FirstName" value="@Model.empDetails.FirstName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Last Name:</span>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="txtEditEmpLastName" name="LastName" value="@Model.empDetails.LastName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Age:</span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" id="numEditEmpAge" name="Age" value="@Model.empDetails.Age" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Salary:</span>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" id="numEditEmpSalary" name="Salary" value="@Model.empDetails.Salary" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Marital Status:&nbsp;</span>
+                        </td>
+                        <td>
+                            <select class="dropdown" name="MaritalStatus">
+                                @if (Model.empDetails.MaritalStatus == true)
+                                {
+                                    <option value="true" selected="selected">Married</option>
+                                    <option value="false">Unmarried</option>
+                                }
+                                else
+                                {
+                                    <option value="true">Married</option>
+                                    <option value="false" selected="selected">Unmarried</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Location:</span>
+                        </td>
+                        <td>
+                            <select name="LocationName" id="lstEditLocation">
+                                <option value="default">Select Location</option>
+                                <option selected="selected">@Model.empDetails.LocationName</option>
+                                @foreach (Locations item in Model.LocationList)
+                                {
+                                    if (item.Location == Model.empDetails.LocationName)
+                                    {
+                                        continue;
+                                    }
+                                    <option>@item.Location</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label id="lblEditValidationMsg" hidden="hidden" style="color:red;"></label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary" type="submit" id="btnUpdateEmpInfo" onclick="return ValidateEditForm()" style="color:white">Update Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="empSkills">
+        <div class="text-center" style="padding:20px;">
+            <h4>Edit Skills</h4>
+        </div>
+
+        <form class="container" action="../UpdateEmployeeSkill/@Model.empDetails.EmpId" method="post">
+            <div class="form-group">
+                <table class="table table-borderless" align="center" style="width:35%">
+                    <tr>
+                        <td>
+                            <span>Skills:&nbsp;</span>
+                        </td>
+                        <td>
+                            <textarea class="form-control" id="txtSkills" name="Skills" style="resize:none;">@Model.empDetails.SkillName</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Add Skill:&nbsp;</span>
+                        </td>
+                        <td>
+                            <select name="SkillName" id="lstEditSkill">
+                                <option value="default">Select Skill</option>
+                                @foreach (Skills item in Model.SkillNames)
+                                {
+                                    <option value="@item.Skill">@item.Skill</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="valMsg" hidden="hidden">
+                        <td colspan="2">
+                            <span id="msg" style="color:red"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-warning" id="btnAddSkill">Add Skill</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Update Employee</button>
+            </div>
+        </form>
+    </div>
 </div>
 

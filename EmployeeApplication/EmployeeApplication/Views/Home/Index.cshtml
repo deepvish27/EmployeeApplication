@@ -5,9 +5,9 @@
 @using EmployeeApplication.ViewModels
 @model List<EmployeeViewModel>
 
-<div class="row" style="position:center;">
+<div class="row" style="position:center;padding-top:20px;padding-bottom:20px;">
     <div class="col-md-3">
-        <h3>Employee Details</h3>
+        <h4>Employee Details</h4>
     </div>
     <div class="col-md-9">
         <form action="../Home/SearchEmployee" method="post">
@@ -84,5 +84,7 @@
                 </tr>
             }
         </table>
-        <button class="btn btn-info" id="btnAddEmployee" onclick="location.href='../Home/AddEmployeeView'">Add Employee</button>
+        <div class="form-group">
+            <button class="btn btn-info" id="btnAddEmployee" onclick="location.href='../Home/AddEmployeeView'">Add Employee</button>
+        </div>
     </div>

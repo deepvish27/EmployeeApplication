@@ -51,8 +51,7 @@ function ValidateEditForm() {
         $('#txtEditEmpLastName').val() == "" ||
         $('#numEditEmpAge').val() == "" ||
         $('#numEditEmpSalary').val() == "" ||
-        $('#lstEditLocation').val() == "default" ||
-        $('#lstEditSkill').val() == "default") {
+        $('#lstEditLocation').val() == "default" ) {
         errorMsg += "All the fields are mandatory! Please enter the values...";
     }
 
@@ -69,3 +68,27 @@ function ValidateEditForm() {
     }
     return true;
 }
+
+$('#btnAddSkill').on('click', function (e) {
+    e.preventDefault();
+    var existingSkills = $('#txtSkills').val();
+    var selectedSkill = $('#lstEditSkill').val();
+    var addedSkill = '';
+ 
+    if (selectedSkill == "default") {
+        $('#valMsg').removeAttr('hidden');
+        $('#msg').text("Invalid Skill!");
+        return false;
+    }
+    var skills = existingSkills.split(',');
+    for (var i = 0; i < skills.length; i++) {
+        if (skills[i].trim() == selectedSkill) {
+            $('#valMsg').removeAttr('hidden');
+            $('#msg').text("Skill Already present! Please select different Skill...");
+            return false;
+        }
+    }
+    $('#valMsg').attr('hidden','hidden');
+    addedSkill = existingSkills + ', ' + selectedSkill;
+    $('#txtSkills').text(addedSkill);
+})

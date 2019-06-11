@@ -161,6 +161,7 @@
     <Compile Include="Models\Skills.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EditEmployeeVM.cs" />
+    <Compile Include="ViewModels\EditSkillVM.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\SkillAndLocationVM.cs" />
   </ItemGroup>

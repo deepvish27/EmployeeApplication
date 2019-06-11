@@ -120,14 +120,13 @@ spRemoveEmployee 1003
 
 select * from tblEmployee
 
-create proc spGetEmployeeById
+alter proc spGetEmployeeById
 @ID int
 as
 begin
-select emp.ID, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.MaritalStatus, loc.LocationName, skl.SkillName 
+select emp.ID, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.MaritalStatus, loc.LocationName, emp.Skill 
 from tblEmployee emp inner join tblLocation loc
-on emp.Location = loc.LocationId inner join tblSkills skl on
-emp.Skill = skl.SkillId where emp.ID=@ID
+on emp.Location = loc.LocationId where emp.ID=@ID
 end
 
 spGetEmployeeById 1
@@ -143,20 +142,17 @@ alter proc spUpdateEmployeeDetails
 @Age int,
 @Salary decimal(10,2),
 @MaritalStatus int,
-@LocationName nvarchar(50),
-@SkillName nvarchar(50)
+@LocationName nvarchar(50)
 as
 begin
 Declare @LocationId int;
-Declare @SkillId int;
 select @LocationId = loc.[LocationId] from [dbo].[tblLocation] as loc where loc.LocationName=@LocationName;
-select @SkillId = skl.[SkillId] from [dbo].[tblSkills] as skl where skl.SkillName=@SkillName;
 update [dbo].[tblEmployee] 
-set FirstName = @FirstName, LastName=@LastName, Age=@Age, Salary=@Salary, MaritalStatus=@MaritalStatus, Location=@LocationId, Skill=@SkillId
+set FirstName = @FirstName, LastName=@LastName, Age=@Age, Salary=@Salary, MaritalStatus=@MaritalStatus, Location=@LocationId
 where ID=@ID;
 end
 
-spUpdateEmployeeDetails 2003,'Barry','Allen',28,700,0,'Banglore','WCF'
+spUpdateEmployeeDetails 2,'Barry','Allen',28,700,0,'Banglore'
 
 create table tblEmployeeAudit(
 AuditEntry nvarchar(200)
@@ -197,3 +193,36 @@ end
 spSearchEmpByAge 34
 spSearchEmpBySalary 100
 spSearchEmpByLocation 'Chennai'
+
+alter table tblEmployee
+drop constraint fk_tblSkills_SkillID
+
+alter table tblEmployee
+alter column Skill nvarchar(1000)
+
+select * from tblEmployee
+
+update tblEmployee
+set Skill = '.NET, Python, BI'
+
+sp_helptext spGetEmployeeById
+
+create proc spGetSkillsByEmpId
+@ID int
+as
+begin
+select Skill from [dbo].[tblEmployee] where ID = @ID;
+end
+
+spGetSkillsByEmpId 2
+
+create proc spUpdateEmployeeSkill
+@ID int,
+@Skills nvarchar(1000)
+as
+begin
+update [dbo].[tblEmployee]
+set Skill = @Skills where ID = @ID;
+end
+
+spUpdateEmployeeSkill 1, '.NET, Java'

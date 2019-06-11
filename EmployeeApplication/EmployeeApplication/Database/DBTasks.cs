@@ -106,15 +106,38 @@ namespace EmployeeApplication.Database
                 cmd.Parameters.Add("@Age", SqlDbType.Int).Value = emp.Age;
                 cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = emp.Salary;
                 cmd.Parameters.Add("@MaritalStatus", SqlDbType.Int).Value = emp.MaritalStatus;
-                cmd.Parameters.Add("@LocationName", SqlDbType.NVarChar).Value = emp.LocationName;
-                cmd.Parameters.Add("@SkillName", SqlDbType.NVarChar).Value = emp.SkillName;
+                cmd.Parameters.Add("@LocationName", SqlDbType.NVarChar).Value = emp.LocationName;                
                 conn.Open();
-                if (cmd.ExecuteNonQuery() > 0)
+                int affectedRows = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (affectedRows>0)
+                {
+                    status = true;
+                }                
+            }
+            return status;
+        }
+
+        public bool UpdateEmployeeSkills(int id, string skills)
+        {
+            bool status = false;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            string spName = "spUpdateEmployeeSkill";
+            using (SqlCommand cmd=new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                cmd.Parameters.Add("@Skills", SqlDbType.NVarChar).Value = skills;
+                conn.Open();
+                int affectedRows = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (affectedRows > 0)
                 {
                     status = true;
                 }
-                conn.Close();
             }
+
             return status;
         }
 
@@ -175,7 +198,7 @@ namespace EmployeeApplication.Database
 
             return skills;
         }
-
+        
         public bool ValidUser(LoginDetails user)
         {
             bool status = false;
@@ -217,11 +240,12 @@ namespace EmployeeApplication.Database
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
                 conn.Open();
-                if (cmd.ExecuteNonQuery() > 0)
+                int affectedRows = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (affectedRows > 0)
                 {
                     status = true;
-                }
-                conn.Close();
+                }                
             }
             return status;
         }
@@ -251,7 +275,7 @@ namespace EmployeeApplication.Database
                     emp.Salary = Convert.ToDouble(data.Tables[0].Rows[0]["Salary"]);
                     emp.MaritalStatus = Convert.ToInt16(data.Tables[0].Rows[0]["MaritalStatus"]) == 1 ? true : false;
                     emp.LocationName = data.Tables[0].Rows[0]["LocationName"].ToString();
-                    emp.SkillName = data.Tables[0].Rows[0]["SkillName"].ToString();
+                    emp.SkillName = data.Tables[0].Rows[0]["Skill"].ToString();
                 }
             }
 
