@@ -144,6 +144,12 @@ namespace EmployeeApplication.Controllers
             }
         }
 
+        public ActionResult GetAuditDetailsOfEmpTable()
+        {
+            DBTasks db = new DBTasks();
+            AuditDetailsVM auditVM = db.GetAuditDetails();
+            return View("AuditDetails", auditVM);
+        }
 
         private List<Skills> GetSkillNames()
         {

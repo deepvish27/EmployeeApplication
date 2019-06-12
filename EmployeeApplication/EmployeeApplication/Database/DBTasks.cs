@@ -337,5 +337,43 @@ namespace EmployeeApplication.Database
 
             return empResult;
         }
+
+        public AuditDetailsVM GetAuditDetails()
+        {
+            AuditDetails audit;
+            List<AuditDetails> auditEntries = new List<AuditDetails>();
+            AuditDetailsVM auditVM = new AuditDetailsVM();
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            SqlDataAdapter adapter;
+            DataSet data = new DataSet();
+            string spName = "spGetDetailsFromEmployeeAuditTable";
+            using (SqlCommand cmd = new SqlCommand(spName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                adapter = new SqlDataAdapter(cmd);
+                conn.Open();
+                adapter.Fill(data);
+                conn.Close();
+                if (data != null)
+                {
+                    if (data.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow row in data.Tables[0].Rows)
+                        {
+                            audit = new AuditDetails()
+                            {
+                                AuditId = Convert.ToInt32(row["AuditID"]),
+                                AuditMessage = row["AuditEntry"].ToString()
+                            };
+                            auditEntries.Add(audit);
+                        }
+                    }
+                }
+            }
+            auditVM.AuditList = auditEntries;
+
+            return auditVM;
+        } 
     }
 }

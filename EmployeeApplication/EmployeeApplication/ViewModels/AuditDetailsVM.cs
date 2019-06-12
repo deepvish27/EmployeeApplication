@@ -6,10 +6,8 @@ using System.Web;
 
 namespace EmployeeApplication.ViewModels
 {
-    public class EditSkillVM
+    public class AuditDetailsVM
     {
-        public string SkillName { get; set; }
-
-        public List<Skills> AllSkillNames { get; set; }
+        public List<AuditDetails> AuditList { get; set; }
     }
 }

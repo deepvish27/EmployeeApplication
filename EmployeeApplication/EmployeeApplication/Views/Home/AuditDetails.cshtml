@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "AuditDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model EmployeeApplication.ViewModels.AuditDetailsVM
+@using EmployeeApplication.Models;
+
+<div class="container text-center" style="padding:20px;">
+    <h4>History of Employee Table</h4>
+</div>
+<div class="container">
+    <table class="table" align="center" style="width:100%">
+        <thead style="background-color:dodgerblue;color:white;">
+            <tr>
+                <td>
+                    <span>Sr. No.</span>
+                </td>
+                <td>
+                    <span>Details</span>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (AuditDetails audit in Model.AuditList)
+            {
+                <tr>
+                    <td>
+                        @audit.AuditId
+                    </td>
+                    <td>
+                        @audit.AuditMessage
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
